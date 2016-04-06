@@ -4,6 +4,8 @@ This project was inspired by edge.js
 But it's much simplified version.
 It only allows to call Core CLR assemblies from node.js
 
+__Works only on Windows system__
+
 Sample C# code for Core CLR assembly:
 
 ```csharp
