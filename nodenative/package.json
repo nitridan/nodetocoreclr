@@ -1,0 +1,11 @@
+{
+  "name": "test clrtonode",
+  "version": "0.0.0",
+  "description": "Sample package json",
+  "private": true,
+  "dependencies": {
+    "bindings": "~1.2.1",
+    "nan": "^2.0.0"
+  },
+  "gypfile": true
+}
