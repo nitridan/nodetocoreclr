@@ -1,7 +1,7 @@
 {
-  "name": "test clrtonode",
+  "name": "nodetocoreclr",
   "version": "0.0.0",
-  "description": "Sample package json",
+  "description": "Package json for nodetocoreclr",
   "private": true,
   "dependencies": {
     "bindings": "~1.2.1",

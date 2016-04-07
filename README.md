@@ -49,29 +49,32 @@ Sample project.json
 Sample JS code which invokes this sample assembly
 
 ```javascript
-process.env.CLR_APPBASE_PATH = "C:\\git\\coreclr";
-// List of coma separated fully trusted assemblies
-process.env.CLR_TRUSTED_PLATFORM_ASSEMBLIES = "";
-// list of coma separated folders to search for assemblies
-process.env.CLR_APP_PATHS = "C:\\git\\coreclr";
-// path to core CLR library itself
-process.env.CLR_LIB_PATH = 'C:\\git\\coreclr\\coreclr.dll';
+const addon = require('./nodenative.js');
+const config = {
+    AssemblyName: 'testlib',
+    TypeName: 'TestAssembly.TestClass',
+    MethodName: 'TestMethod'
+};
 
-console.log('Starting');
-const addon = require('./build/Release/ClrLoader');
-const config = JSON.stringify({
-        AssemblyName: 'testlib',
-        TypeName: 'TestAssembly.TestClass',
-        MethodName: 'TestMethod'
-    });
+const input = {
+    Param: 'lol',
+};
+  
+addon.configureRuntime({
+    // pth to base core CLR directory
+    clrAppBasePath: 'C:\\git\\coreclr',
+    // path to core CLR library itself
+    clrLibPath: 'C:\\git\\coreclr\\coreclr.dll',
+    // List of coma separated fully trusted assemblies
+    clrTrustedPlatformAssemblies: '',
+    // list of coma separated folders to search for assemblies    
+    clrAppPaths: 'C:\\git\\coreclr'
+});
 
-const input = JSON.stringify({
-        Param: 'lol',
-    });
-    
-
-addon.ClrExecute(config, input, (val) => {
-    console.log('This should be eight: ' + val);    
+const clrRuntime = addon.getClrRuntime();
+const clrPromise = clrRuntime.callClrMethod(config, input);
+clrPromise.then((result) => {
+    console.log('This should be eight: ' + result);
 });
 
 const stdin = process.openStdin();
