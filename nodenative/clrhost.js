@@ -6,7 +6,6 @@ module.exports.callClrMethod = function(config, args){
     const clrPromise = new Promise(function(resolve, reject){
         addon.ClrExecute(configStr, argsStr, (result) => {
 		    const resultObj = JSON.parse(result);
-            console.log(resultObj);
             if (resultObj.ResultType == 1){
                 resolve(resultObj.Result);
             } else {
