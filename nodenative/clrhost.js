@@ -1,4 +1,12 @@
-const addon = require('./build/Release/ClrLoader');
+var addon;
+
+if (process.arch == 'ia32'){
+    addon = require('./ClrLoader_x86');
+} else if (process.arch == 'x64'){
+    addon = require('./ClrLoader_x64');
+} else {
+    throw new Error('Unsupported processor architecture');
+}
 
 module.exports.callClrMethod = function(config, args){
     const configStr = JSON.stringify(config);
