@@ -10,3 +10,4 @@ node_modules/
 .project
 .cproject
 dist/
+dist-electron/
