@@ -3,6 +3,10 @@ project.lock.json
 bin/
 obj/
 *.exe
+*.zip
+*.node
+*.dll
+*.so
 *.log
 build/
 node_modules/
@@ -10,4 +14,4 @@ node_modules/
 .project
 .cproject
 dist/
-dist-electron/
+dist-*/
