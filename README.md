@@ -6,6 +6,10 @@ It only allows to call Core CLR assemblies from node.js
 
 __Works only on Windows system__
 
+Build status:
+
+[![Build status](https://ci.appveyor.com/api/projects/status/i9mulv9q8f789y4i?svg=true)](https://ci.appveyor.com/project/nitridan/nodetocoreclr)
+
 Sample C# code for Core CLR assembly:
 
 ```csharp
