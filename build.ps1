@@ -2,9 +2,9 @@ param($buildNumber,
     [switch]
     $localDotNet)
 
-$ELECTRON_VERSION=0.37.5
-$DOTNET_SDK_URL=https://dotnetcli.blob.core.windows.net/dotnet/beta/Binaries/Latest/dotnet-dev-win-x64.latest.zip
-$ATOM_SHELL_URL=https://atom.io/download/atom-shell
+$ELECTRON_VERSION='0.37.5'
+$DOTNET_SDK_URL='https://dotnetcli.blob.core.windows.net/dotnet/beta/Binaries/Latest/dotnet-dev-win-x64.latest.zip'
+$ATOM_SHELL_URL='https://atom.io/download/atom-shell'
 
 if (!$buildNumber){
     $buildNumber = 1
