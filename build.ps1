@@ -12,7 +12,7 @@ if (!$buildNumber){
 
 $NATIVE_VERSION='1.0.' + $buildNumber
 
-# If specified we will prepend PATH with local dotnet CLI SDK
+# If specified we will prepend PATH with local dotnet CLI SDK and install node-gyp
 if ($localDotNet){
     Invoke-WebRequest -Uri $DOTNET_SDK_URL -OutFile dotnet.zip
     Add-Type -assembly 'system.io.compression.filesystem'
@@ -22,6 +22,8 @@ if ($localDotNet){
     
     [io.compression.zipfile]::ExtractToDirectory('dotnet.zip', 'dist-dotnet')
     $env:PATH=(Convert-Path .) + '\dist-dotnet;' + $env:PATH
+    
+    & npm install -g node-gyp
 }
 
 function Force-Copy($source, $destination){
