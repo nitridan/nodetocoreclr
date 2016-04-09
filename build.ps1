@@ -15,7 +15,12 @@ $NATIVE_VERSION='1.0.' + $buildNumber
 # If specified we will prepend PATH with local dotnet CLI SDK
 if ($localDotNet){
     Invoke-WebRequest -Uri $DOTNET_SDK_URL -OutFile dotnet.zip
-    Expand-Archive -Path dotnet.zip -DestinationPath dist-dotnet -Force
+    Add-Type -assembly 'system.io.compression.filesystem'
+    if (Test-Path '.\dist-dotnet'){
+        Remove-Item '.\dist-dotnet' -Force -Recurse    
+    }
+    
+    [io.compression.zipfile]::ExtractToDirectory('dotnet.zip', 'dist-dotnet')
     $env:PATH=(Convert-Path .) + '\dist-dotnet;' + $env:PATH
 }
 
