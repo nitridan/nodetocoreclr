@@ -1,5 +1,7 @@
 {
   "name": "nodetocoreclr",
   "version": "0.0.1",
-  "description": "Package json for nodetocoreclr"
+  "description": "Package json for nodetocoreclr",
+  "main": "./nodenative.js",
+  "readme": "https://github.com/nitridan/nodetocoreclr/blob/master/README.md"
 }

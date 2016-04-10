@@ -10,7 +10,7 @@ if (!$buildNumber){
     $buildNumber = 1
 }
 
-$NATIVE_VERSION='1.0.' + $buildNumber
+$NATIVE_VERSION='1.1.' + $buildNumber
 
 function Force-Copy($source, $destination){
     New-Item -ItemType File -Path $destination -Force
@@ -92,14 +92,14 @@ if (Test-Path $electronDistributiveDir){
     Remove-Item $electronDistributiveDir -Force -Recurse    
 }
 
-Force-Copy $outputPath $electronX86binaryTarget
+Force-Copy $outputPath $electronX64binaryTarget
 & node-gyp rebuild --arch=ia32 --target=$ELECTRON_VERSION --dist-url=$ATOM_SHELL_URL
 if ($LASTEXITCODE -ne 0){
     Write-Host 'Failed to build for electron x86'
     exit 1    
 }
 
-Force-Copy $outputPath $electronX64binaryTarget
+Force-Copy $outputPath $electronX86binaryTarget
 Get-ChildItem -path $nodenativeDir | Where { $_.Extension -eq '.js' } `
     | Copy-Item -destination {$_.FullName -replace [System.Text.RegularExpressions.Regex]::Escape($nodenativeDir),$electronDistributiveDir} -Force
 
