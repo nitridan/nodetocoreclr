@@ -3,6 +3,7 @@ param($buildNumber,
     $localDotNet)
 
 $ELECTRON_VERSION='0.37.5'
+$NODE_VERSION='5.10.1'
 $DOTNET_SDK_URL='https://dotnetcli.blob.core.windows.net/dotnet/beta/Binaries/Latest/dotnet-dev-win-x64.latest.zip'
 $ATOM_SHELL_URL='https://atom.io/download/atom-shell'
 
@@ -43,7 +44,7 @@ $x86binaryTarget = $distributiveDir + '\ClrLoader_x86.node'
 $x64binaryTarget = $distributiveDir + '\ClrLoader_x64.node'
 Set-Location $nodenativeDir
 & npm install
-& node-gyp rebuild --arch=x64
+& node-gyp rebuild --arch=x64 --target=$NODE_VERSION
 if ($LASTEXITCODE -ne 0){
     Write-Host 'Failed to build for node.js x64'
     exit 1    
@@ -54,7 +55,7 @@ if (Test-Path $distributiveDir){
 }
 
 Force-Copy $outputPath $x64binaryTarget
-& node-gyp rebuild --arch=ia32
+& node-gyp rebuild --arch=ia32 --target=$NODE_VERSION
 if ($LASTEXITCODE -ne 0){
     Write-Host 'Failed to build for node.js x86'
     exit 1    
