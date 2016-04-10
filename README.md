@@ -24,8 +24,7 @@ npm install https://github.com/nitridan/nodetocoreclr/releases/download/v1.1/nod
 
 ## Build
 
-Custom buils
-If you need to support different version of node.js/electron custom build can be performed.
+If you have to support different version of node.js/electron custom build can be performed.
 
 ### Build requirements:
 - Python 2.7+
