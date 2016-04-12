@@ -8,12 +8,12 @@ namespace ClrLoader {
 
 using namespace v8;
 
-typedef void (STDMETHODCALLTYPE *PUnmanagedCallback)(const intptr_t, const char*);
+typedef void (PUnmanagedCallback)(const intptr_t, const char*);
 
-typedef void (STDMETHODCALLTYPE *PManagedEntryPoint)(const intptr_t, const char*, const char*, const void (*PUnmanagedCallback));
+typedef void (PManagedEntryPoint)(const intptr_t, const char*, const char*, const void (*PUnmanagedCallback));
 
 // Declare a variable pointing to our managed method.
-PManagedEntryPoint pManagedEntryPoint;
+PManagedEntryPoint* pManagedEntryPoint;
 
 void ClrCallback(const intptr_t returnPtr, const char* value){
     auto callbackData = (CallbackData*)returnPtr;
