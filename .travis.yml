@@ -1,5 +1,9 @@
-language: node_js
 sudo: required
 dist: trusty
+before_install:
+  - curl -sL https://deb.nodesource.com/setup_5.x | sudo -E bash -
+install:
+  - sudo apt-get install -y nodejs
+  - sudo apt-get install -y build-essential
 script:
   - python buildlinux.py -buildNumber $TRAVIS_BUILD_NUMBER
