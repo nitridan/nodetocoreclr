@@ -21,7 +21,7 @@ build_number = args.buildNumber
 NATIVE_VERSION = '1.2.' + str(build_number)
 
 
-def exit_with_failure(exit_code, error):
+def exit_if_failure(exit_code, error):
     if exit_code != 0:
         print error
         exit(exit_code)
@@ -42,15 +42,15 @@ x64_binary_target = path.join(distributive_dir, 'ClrLoader_x64.node')
 package_dist_json_path = path.join(node_native_dir, 'package_dist.json')
 os.chdir(node_native_dir)
 return_code = subprocess.call('npm install', shell=True)
-exit_with_failure(return_code, 'Failed to restore npm dependencies')
+exit_if_failure(return_code, 'Failed to restore npm dependencies')
 
 return_code = subprocess.call('node-gyp rebuild --arch=x64 --target=' + NODE_VERSION, shell=True)
-exit_with_failure(return_code, 'Failed to build for node.js x64')
+exit_if_failure(return_code, 'Failed to build for node.js x64')
 
 create_dist_dir(distributive_dir)
 shutil.copy(output_path, x64_binary_target)
 return_code = subprocess.call('node-gyp rebuild --arch=ia32 --target=' + NODE_VERSION, shell=True)
-exit_with_failure(return_code, 'Failed to build for node.js x86')
+exit_if_failure(return_code, 'Failed to build for node.js x86')
 
 shutil.copy(output_path, x86_binary_target)
 for js_file in glob.glob1(node_native_dir, '*.js'):
@@ -59,9 +59,9 @@ for js_file in glob.glob1(node_native_dir, '*.js'):
 shutil.copy(package_dist_json_path, path.join(distributive_dir, 'package.json'))
 os.chdir(distributive_dir)
 return_code = subprocess.call('npm version ' + NATIVE_VERSION, shell=True)
-exit_with_failure(return_code, 'Failed to set node.js package version')
+exit_if_failure(return_code, 'Failed to set node.js package version')
 return_code = subprocess.call('npm pack', shell=True)
-exit_with_failure(return_code, 'Failed to create package for node.js')
+exit_if_failure(return_code, 'Failed to create package for node.js')
 
 # Build for electron
 electron_distributive_dir = path.join(node_native_dir, 'dist-electron')
@@ -71,13 +71,13 @@ os.chdir(node_native_dir)
 return_code = subprocess.call('node-gyp rebuild --arch=x64 --target=' +
                               ELECTRON_VERSION + ' --dist-url=' + ATOM_SHELL_URL,
                               shell=True)
-exit_with_failure(return_code, 'Failed to build for electron x64')
+exit_if_failure(return_code, 'Failed to build for electron x64')
 create_dist_dir(electron_distributive_dir)
 shutil.copy(output_path, electron_x64_binary_target)
 return_code = subprocess.call('node-gyp rebuild --arch=ia32 --target=' +
                               ELECTRON_VERSION + ' --dist-url=' + ATOM_SHELL_URL,
                               shell=True)
-exit_with_failure(return_code, 'Failed to build for electron x86')
+exit_if_failure(return_code, 'Failed to build for electron x86')
 shutil.copy(output_path, electron_x86_binary_target)
 for js_file in glob.glob1(node_native_dir, '*.js'):
     shutil.copy(js_file, electron_distributive_dir)
@@ -85,6 +85,6 @@ for js_file in glob.glob1(node_native_dir, '*.js'):
 shutil.copy(package_dist_json_path, path.join(electron_distributive_dir, 'package.json'))
 os.chdir(electron_distributive_dir)
 return_code = subprocess.call('npm version ' + NATIVE_VERSION, shell=True)
-exit_with_failure(return_code, 'Failed to set electron package version')
+exit_if_failure(return_code, 'Failed to set electron package version')
 return_code = subprocess.call('npm pack', shell=True)
-exit_with_failure(return_code, 'Failed to create package for electron')
+exit_if_failure(return_code, 'Failed to create package for electron')

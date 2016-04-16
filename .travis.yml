@@ -1,0 +1,5 @@
+language: node_js
+sudo: required
+dist: trusty
+script:
+  - python buildlinux.py -buildNumber $TRAVIS_BUILD_NUMBER
