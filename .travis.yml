@@ -5,5 +5,6 @@ before_install:
 install:
   - sudo apt-get install -y nodejs
   - sudo apt-get install -y build-essential
+  - npm install -g node-gyp
 script:
   - python buildlinux.py -buildNumber $TRAVIS_BUILD_NUMBER
