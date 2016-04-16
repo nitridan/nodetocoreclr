@@ -1,4 +1,4 @@
-param($buildNumber,
+param($buildNumber = 1,
     [switch]
     $localDotNet)
 
@@ -6,10 +6,6 @@ $ELECTRON_VERSION='0.37.5'
 $NODE_VERSION='5.10.1'
 $DOTNET_SDK_URL='https://dotnetcli.blob.core.windows.net/dotnet/beta/Binaries/Latest/dotnet-dev-win-x64.latest.zip'
 $ATOM_SHELL_URL='https://atom.io/download/atom-shell'
-
-if (!$buildNumber){
-    $buildNumber = 1
-}
 
 $NATIVE_VERSION='1.1.' + $buildNumber
 
@@ -44,6 +40,11 @@ $x86binaryTarget = $distributiveDir + '\ClrLoader_x86.node'
 $x64binaryTarget = $distributiveDir + '\ClrLoader_x64.node'
 Set-Location $nodenativeDir
 & npm install
+if ($LASTEXITCODE -ne 0){
+    Write-Host 'Failed to restore npm dependencies'
+    exit 1    
+}
+
 & node-gyp rebuild --arch=x64 --target=$NODE_VERSION
 if ($LASTEXITCODE -ne 0){
     Write-Host 'Failed to build for node.js x64'
@@ -82,7 +83,6 @@ $electronDistributiveDir = $nodenativeDir + '\dist-electron';
 $electronX86binaryTarget = $electronDistributiveDir + '\ClrLoader_x86.node'
 $electronX64binaryTarget = $electronDistributiveDir + '\ClrLoader_x64.node'
 Set-Location $nodenativeDir
-& npm install
 & node-gyp rebuild --arch=x64 --target=$ELECTRON_VERSION --dist-url=$ATOM_SHELL_URL
 if ($LASTEXITCODE -ne 0){
     Write-Host 'Failed to build for electron x64'
