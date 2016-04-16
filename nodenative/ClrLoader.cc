@@ -1,6 +1,6 @@
+#include <stdlib.h>
 #include "PlatformAbstractions.h"
 #include <nan.h>
-#include <stdlib.h>
 #include <uv.h>
 #include "CallbackData.h"
 
@@ -8,12 +8,12 @@ namespace ClrLoader {
 
 using namespace v8;
 
-typedef void (PUnmanagedCallback)(const intptr_t, const char*);
+typedef void (*PUnmanagedCallback)(const intptr_t, const char*);
 
-typedef void (PManagedEntryPoint)(const intptr_t, const char*, const char*, const void (*PUnmanagedCallback));
+typedef void (*PManagedEntryPoint)(const intptr_t, const char*, const char*, PUnmanagedCallback);
 
 // Declare a variable pointing to our managed method.
-PManagedEntryPoint* pManagedEntryPoint;
+PManagedEntryPoint pManagedEntryPoint;
 
 void ClrCallback(const intptr_t returnPtr, const char* value){
     auto callbackData = (CallbackData*)returnPtr;
@@ -55,12 +55,16 @@ void ClrExecute(const Nan::FunctionCallbackInfo<Value>& args) {
   auto cb = args[2].As<Function>();
   auto nanCb = new CallbackData(new Nan::Persistent<Function>(cb));
   auto initResult = uv_async_init(uv_default_loop(), nanCb->getLoopData(), FinalizeUvCallback);
-  if (!SUCCEEDED(initResult)){
+  // All libuv sucessfull codes greater than 0
+  if (initResult < 0){
       Nan::ThrowError(uv_strerror(initResult));
       return;
   }
 
-  pManagedEntryPoint((intptr_t)nanCb, stdCStringConfig.c_str(), stdCStringData.c_str(), ClrCallback);
+  pManagedEntryPoint((intptr_t)nanCb,
+    stdCStringConfig.c_str(),
+    stdCStringData.c_str(),
+    ClrCallback);
 }
 
 void Init(Local<Object> exports) {
@@ -88,14 +92,15 @@ void Init(Local<Object> exports) {
     return;
   }
 
-  void* pCLRRuntimeHost = nullptr;
+  intptr_t pCLRRuntimeHost;
+  intptr_t delegatePointer;
   clr_domain_id domainId;
   auto initClrResult = InitializeCoreClr(libPath,
 		  appBasePath,
 		  trustedPlatformAssemblies,
 		  appPaths,
-		  pCLRRuntimeHost,
-		  (void*)&pManagedEntryPoint,
+		  &pCLRRuntimeHost,
+		  &delegatePointer,
 		  &domainId);
   switch(initClrResult){
     case Success:
@@ -128,7 +133,8 @@ void Init(Local<Object> exports) {
       Nan::ThrowError("Unknown error");
       return;
   }
-
+  
+  pManagedEntryPoint = (PManagedEntryPoint)delegatePointer;
   Nan::SetMethod(exports, "ClrExecute", ClrExecute);
 }
 

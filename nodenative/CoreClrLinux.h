@@ -1,23 +1,25 @@
+#include <stdint.h>
+
 namespace ClrLoader {
 
-typedef int (coreclrInitializeFunc)(
+typedef int32_t (coreclrInitializeFunc)(
             const char* exePath,
             const char* appDomainFriendlyName,
-            int propertyCount,
+            int32_t propertyCount,
             const char** propertyKeys,
             const char** propertyValues,
-            void** hostHandle,
-            unsigned int* domainId);
+            intptr_t* hostHandle,
+            uint32_t* domainId);
 
-typedef int (coreclrShutdownFunc)(
-            void* hostHandle,
-            unsigned int domainId);
+typedef int32_t (coreclrShutdownFunc)(
+            intptr_t hostHandle,
+            uint32_t domainId);
 
-typedef int (coreclrCreateDelegateFunc)(
-              void* hostHandle,
-              unsigned int domainId,
+typedef int32_t (coreclrCreateDelegateFunc)(
+              intptr_t hostHandle,
+              uint32_t domainId,
               const char* entryPointAssemblyName,
               const char* entryPointTypeName,
               const char* entryPointMethodName,
-              void** delegate);
+              intptr_t* delegate);
 }
