@@ -89,7 +89,7 @@ Sample project.json
 Sample JS code which invokes this sample assembly
 
 ```javascript
-const addon = require('nodenative');
+const addon = require('nodetocoreclr');
 const config = {
     AssemblyName: 'testlib',
     TypeName: 'TestAssembly.TestClass',

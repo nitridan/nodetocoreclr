@@ -6,7 +6,7 @@ from os import path
 import subprocess
 
 script_dir = os.path.dirname(os.path.realpath(__file__))
-ELECTRON_VERSION = '0.37.5'
+ELECTRON_VERSION = '0.37.6'
 NODE_VERSION = '5.10.1'
 DOTNET_SDK_URL = 'https://dotnetcli.blob.core.windows.net/dotnet/beta/Binaries/Latest/dotnet-dev-ubuntu-x64.latest.tar.gz'
 ATOM_SHELL_URL = 'https://atom.io/download/atom-shell'
