@@ -4,11 +4,18 @@ This project was inspired by edge.js
 But it's much simplified version.
 It only allows to call Core CLR assemblies from node.js
 
-__Works only on Windows system__
+## Requires
+- Windows 7 SP1 x86/x64 or newer (Windows 8 not supported by Microsoft so issues may happen)
+- Ubuntu Linux 14.04 x64
 
-Build status:
+### Build status
+Windows x86/x64
 
 [![Build status](https://ci.appveyor.com/api/projects/status/i9mulv9q8f789y4i?svg=true)](https://ci.appveyor.com/project/nitridan/nodetocoreclr)
+
+Ubuntu 14.04 x64
+
+[![Build Status](https://travis-ci.org/nitridan/nodetocoreclr.svg?branch=master)](https://travis-ci.org/nitridan/nodetocoreclr)
 
 ## Installation
 
@@ -17,7 +24,7 @@ Installation to electron (v0.37.5 currently used for build):
 npm install https://github.com/nitridan/nodetocoreclr/releases/download/v1.1/nodetocoreclr-electron-1.1.7.tgz
 ```
 
-Installation to node.js(v5.10.1 currently used for build):
+Installation to node.js (v5.10.1 currently used for build):
 ```
 npm install https://github.com/nitridan/nodetocoreclr/releases/download/v1.1/nodetocoreclr-node-1.1.7.tgz
 ```
@@ -82,7 +89,7 @@ Sample project.json
 Sample JS code which invokes this sample assembly
 
 ```javascript
-const addon = require('nodenative');
+const addon = require('nodetocoreclr');
 const config = {
     AssemblyName: 'testlib',
     TypeName: 'TestAssembly.TestClass',
