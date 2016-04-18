@@ -6,18 +6,22 @@ from os import path
 import subprocess
 
 script_dir = os.path.dirname(os.path.realpath(__file__))
-ELECTRON_VERSION = '0.37.6'
-NODE_VERSION = '5.10.1'
 DOTNET_SDK_URL = 'https://dotnetcli.blob.core.windows.net/dotnet/beta/Binaries/Latest/dotnet-dev-ubuntu-x64.latest.tar.gz'
 ATOM_SHELL_URL = 'https://atom.io/download/atom-shell'
 
 argument_parser = argparse.ArgumentParser(description='nodetocoreclr linux build script')
 argument_parser.add_argument('-buildNumber', type=int,
                             help='Build number for binaries', default=1)
+argument_parser.add_argument('-electronVersion', type=str,
+                             help='Version of electron to build', default='0.37.6')
+argument_parser.add_argument('-nodeVersion', type=str,
+                             help='Version of node to build', default='5.10.1')
 
 args = argument_parser.parse_args()
 build_number = args.buildNumber
 
+ELECTRON_VERSION = args.electronVersion
+NODE_VERSION = args.nodeVersion
 NATIVE_VERSION = '1.2.' + str(build_number)
 
 

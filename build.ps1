@@ -1,13 +1,12 @@
 param($buildNumber = 1,
+    $electronVersion = '0.37.6',
+    $nodeVersion = '5.10.1',
     [switch]
     $localDotNet)
 
-$ELECTRON_VERSION='0.37.6'
-$NODE_VERSION='5.10.1'
-$DOTNET_SDK_URL='https://dotnetcli.blob.core.windows.net/dotnet/beta/Binaries/Latest/dotnet-dev-win-x64.latest.zip'
-$ATOM_SHELL_URL='https://atom.io/download/atom-shell'
-
-$NATIVE_VERSION='1.1.' + $buildNumber
+$DOTNET_SDK_URL = 'https://dotnetcli.blob.core.windows.net/dotnet/beta/Binaries/Latest/dotnet-dev-win-x64.latest.zip'
+$ATOM_SHELL_URL = 'https://atom.io/download/atom-shell'
+$NATIVE_VERSION='1.2.' + $buildNumber
 
 function Force-Copy($source, $destination){
     New-Item -ItemType File -Path $destination -Force
@@ -45,7 +44,7 @@ if ($LASTEXITCODE -ne 0){
     exit 1    
 }
 
-& node-gyp rebuild --arch=x64 --target=$NODE_VERSION
+& node-gyp rebuild --arch=x64 --target=$nodeVersion
 if ($LASTEXITCODE -ne 0){
     Write-Host 'Failed to build for node.js x64'
     exit 1    
@@ -56,7 +55,7 @@ if (Test-Path $distributiveDir){
 }
 
 Force-Copy $outputPath $x64binaryTarget
-& node-gyp rebuild --arch=ia32 --target=$NODE_VERSION
+& node-gyp rebuild --arch=ia32 --target=$nodeVersion
 if ($LASTEXITCODE -ne 0){
     Write-Host 'Failed to build for node.js x86'
     exit 1    
@@ -83,7 +82,7 @@ $electronDistributiveDir = $nodenativeDir + '\dist-electron';
 $electronX86binaryTarget = $electronDistributiveDir + '\ClrLoader_x86.node'
 $electronX64binaryTarget = $electronDistributiveDir + '\ClrLoader_x64.node'
 Set-Location $nodenativeDir
-& node-gyp rebuild --arch=x64 --target=$ELECTRON_VERSION --dist-url=$ATOM_SHELL_URL
+& node-gyp rebuild --arch=x64 --target=$electronVersion --dist-url=$ATOM_SHELL_URL
 if ($LASTEXITCODE -ne 0){
     Write-Host 'Failed to build for electron x64'
     exit 1    
@@ -94,7 +93,7 @@ if (Test-Path $electronDistributiveDir){
 }
 
 Force-Copy $outputPath $electronX64binaryTarget
-& node-gyp rebuild --arch=ia32 --target=$ELECTRON_VERSION --dist-url=$ATOM_SHELL_URL
+& node-gyp rebuild --arch=ia32 --target=$electronVersion --dist-url=$ATOM_SHELL_URL
 if ($LASTEXITCODE -ne 0){
     Write-Host 'Failed to build for electron x86'
     exit 1    

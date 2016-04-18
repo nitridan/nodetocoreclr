@@ -33,18 +33,41 @@ npm install https://github.com/nitridan/nodetocoreclr/releases/download/v1.1/nod
 
 If you have to support different version of node.js/electron custom build can be performed.
 
-### Build requirements:
+Currently build with scripts supported only on x64 platforms.
+Code changes required for x86 platforms.
+
+### Build requirements Windows
 - Python 2.7+
 - VS Express 2013+ (haven't tested with earlier versions)
 - Powershell 4.0+
 
-### Build steps
-1. Open build.ps1
-2. Set your versions of node.js/electron(you have to change 2 variables: _$ELECTRON_VERSION_, _$NODE_VERSION_)
-3. Run _"powershell -file build.ps1 -localDotNet"_
-4. Go to _"nodenative\dist"_ for node.js build
-5. Go to _"nodenative\dist-electron"_ for electron build
-6. Nuget package for core CLR build can be found under: _"coreclrnode\bin\Release"_
+### Build steps Windows (x64)
+1. Run _"powershell -file build.ps1 -localDotNet"_ 
+   - to change your node.js version provide command line argument _"-nodeVersion 5.10.1"_
+   - to change your electron version provide command line argument _"-electronVersion 0.37.6"_
+2. Go to _"nodenative\dist"_ for node.js build
+3. Go to _"nodenative\dist-electron"_ for electron build
+4. Nuget package for core CLR build can be found under: _"coreclrnode\bin\Release"_
+
+### Build requirements Linux (x64)
+- dotnet cli SDK
+- Python 2.7+
+- node.js build tools
+- node-gyp 3.3.1 (build-essential package on Ubuntu)
+- gcc-multilib
+- g++-multilib
+
+### Build steps Linux
+1. Run _"python buildlinux.py"_ 
+   - to change your node.js version provide command line argument _"-nodeVersion=5.10.1"_
+   - to change your electron version provide command line argument _"-electronVersion=0.37.6"_
+2. Go to _"nodenative/dist"_ for node.js build
+3. Go to _"nodenative/dist-electron"_ for electron build
+4. To build managed part go to _"coreclrnode"_
+5. Run _"dotnet restore"_
+6. Run _"dotnet pack"_
+7. Now nuget package for core CLR build can be found under: _"coreclrnode/bin/Release"_
+
 
 Sample C# code for Core CLR assembly:
 
