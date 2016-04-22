@@ -5,8 +5,6 @@ import glob
 from os import path
 import subprocess
 
-script_dir = os.path.dirname(os.path.realpath(__file__))
-DOTNET_SDK_URL = 'https://dotnetcli.blob.core.windows.net/dotnet/beta/Binaries/Latest/dotnet-dev-ubuntu-x64.latest.tar.gz'
 ATOM_SHELL_URL = 'https://atom.io/download/atom-shell'
 
 argument_parser = argparse.ArgumentParser(description='nodetocoreclr linux build script')
@@ -24,6 +22,7 @@ ELECTRON_VERSION = args.electronVersion
 NODE_VERSION = args.nodeVersion
 NATIVE_VERSION = '1.2.' + str(build_number)
 
+script_dir = path.dirname(path.realpath(__file__))
 
 def exit_if_failure(exit_code, error):
     if exit_code != 0:
