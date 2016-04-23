@@ -1,0 +1,15 @@
+version: 1.2.{build}
+environment:
+  DROPBOX_TOKEN:
+    secure: KF58oZx+oxHi4PTz1vFXwnLo1JUJaFuElnB2Fb5okXuBvYLVWtdb9PHup615mq8VCP/ncZKxqw1ry7NrdnLb6/XsE+oJ9aRrzpSJ+krIdMg=
+build_script:
+- cmd: powershell -file build.ps1 -localDotNet -buildNumber %APPVEYOR_BUILD_NUMBER%
+artifacts:
+- path: nodenative\dist\*.tgz
+  name: nodepackage
+- path: nodenative\dist-electron\*.tgz
+  name: electronpackage
+- path: coreclrnode\bin\Release\*.nupkg
+  name: nugetpackage
+on_finish:
+- cmd: python dropboxpublish.py -version=%APPVEYOR_BUILD_VERSION% -token=%DROPBOX_TOKEN% -uploadNuget
