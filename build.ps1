@@ -14,7 +14,7 @@ function Force-Copy($source, $destination){
 
 # If specified we will prepend PATH with local dotnet CLI SDK and install node-gyp
 if ($localDotNet){
-    .\downloadDotNet.ps1
+    . .\downloadDotNet.ps1
     Download-DotNet
     & npm install -g node-gyp
     if ($LASTEXITCODE -ne 0){
