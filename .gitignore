@@ -17,5 +17,5 @@ dist/
 dist-*/
 .idea/
 *.suo
-*.xproj
 .vs/
+*.user

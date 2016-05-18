@@ -1,11 +1,11 @@
 param($buildNumber = 1,
-    $electronVersion = '0.37.6',
-    $nodeVersion = '5.10.1',
+    $electronVersion = '1.1.0',
+    $nodeVersion = '6.1.0',
     [switch]
     $localDotNet)
     
 $ATOM_SHELL_URL = 'https://atom.io/download/atom-shell'
-$NATIVE_VERSION='1.2.' + $buildNumber
+$NATIVE_VERSION='1.3.' + $buildNumber
 
 function Force-Copy($source, $destination){
     New-Item -ItemType File -Path $destination -Force

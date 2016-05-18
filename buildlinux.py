@@ -11,16 +11,16 @@ argument_parser = argparse.ArgumentParser(description='nodetocoreclr linux build
 argument_parser.add_argument('-buildNumber', type=int,
                             help='Build number for binaries', default=1)
 argument_parser.add_argument('-electronVersion', type=str,
-                             help='Version of electron to build', default='0.37.6')
+                             help='Version of electron to build', default='1.1.0')
 argument_parser.add_argument('-nodeVersion', type=str,
-                             help='Version of node to build', default='5.10.1')
+                             help='Version of node to build', default='6.1.0')
 
 args = argument_parser.parse_args()
 build_number = args.buildNumber
 
 ELECTRON_VERSION = args.electronVersion
 NODE_VERSION = args.nodeVersion
-NATIVE_VERSION = '1.2.' + str(build_number)
+NATIVE_VERSION = '1.3.' + str(build_number)
 
 script_dir = path.dirname(path.realpath(__file__))
 
