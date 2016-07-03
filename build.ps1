@@ -1,6 +1,6 @@
 param($buildNumber = 1,
-    $electronVersion = '1.1.0',
-    $nodeVersion = '6.1.0',
+    $electronVersion = '1.2.5',
+    $nodeVersion = '6.2.2',
     [switch]
     $localDotNet)
     

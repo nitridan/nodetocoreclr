@@ -11,9 +11,9 @@ argument_parser = argparse.ArgumentParser(description='nodetocoreclr linux build
 argument_parser.add_argument('-buildNumber', type=int,
                             help='Build number for binaries', default=1)
 argument_parser.add_argument('-electronVersion', type=str,
-                             help='Version of electron to build', default='1.1.0')
+                             help='Version of electron to build', default='1.2.5')
 argument_parser.add_argument('-nodeVersion', type=str,
-                             help='Version of node to build', default='6.1.0')
+                             help='Version of node to build', default='6.2.2')
 
 args = argument_parser.parse_args()
 build_number = args.buildNumber
