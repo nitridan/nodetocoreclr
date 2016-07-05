@@ -16,7 +16,7 @@ function Force-Copy($source, $destination){
 if ($localDotNet){
     . .\downloadDotNet.ps1
     Download-DotNet
-    & npm install -g node-gyp
+    & npm install -g node-gyp@3.4.0
     if ($LASTEXITCODE -ne 0){
         Write-Output 'Failed to restore gyp compile dependencies'
         exit 1
