@@ -19,7 +19,7 @@ Ubuntu 14.04 x64
 
 ## Installation
 
-### Installation to electron (v0.37.6 currently used for build)
+### Installation to electron (v1.2.5 currently used for build)
 
 - Linux
 ```
@@ -30,7 +30,7 @@ npm install https://github.com/nitridan/nodetocoreclr/releases/download/v1.2/nod
 npm install https://github.com/nitridan/nodetocoreclr/releases/download/v1.2/nodetocoreclr-electron-win-1.2.27.tgz
 ```
 
-### Installation to node.js (v5.10.1 currently used for build):
+### Installation to node.js (v6.2.2 currently used for build):
 
 - Linux
 ```
@@ -66,6 +66,14 @@ Code changes required for x86 platforms.
 2. Go to _"nodenative\dist"_ for node.js build
 3. Go to _"nodenative\dist-electron"_ for electron build
 4. Nuget package for core CLR build can be found under: _"coreclrnode\bin\Release"_
+
+#### Note
+If you experience issues with VS 2015 Update 3:
+Install VS 2013
+Run:
+```
+npm config set msvs_version 2013 --global
+```
 
 ### Build requirements Linux (x64)
 - dotnet cli SDK
