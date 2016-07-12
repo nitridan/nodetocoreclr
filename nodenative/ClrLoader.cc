@@ -8,15 +8,14 @@ namespace ClrLoader {
 
 using namespace v8;
 
-typedef void (*PUnmanagedCallback)(const intptr_t, const char*);
+typedef void (STDMETHODCALLTYPE *PUnmanagedCallback)(CallbackData*, const char*);
 
-typedef void (*PManagedEntryPoint)(const intptr_t, const char*, const char*, PUnmanagedCallback);
+typedef void (STDMETHODCALLTYPE *PManagedEntryPoint)(const CallbackData*, const char*, const char*, const void (*PUnmanagedCallback));
 
 // Declare a variable pointing to our managed method.
 PManagedEntryPoint pManagedEntryPoint;
 
-void ClrCallback(const intptr_t returnPtr, const char* value){
-    auto callbackData = (CallbackData*)returnPtr;
+void ClrCallback(CallbackData* callbackData, const char* value){
     callbackData->setResult(value);
     uv_async_send(callbackData->getLoopData());
 }
@@ -61,7 +60,7 @@ void ClrExecute(const Nan::FunctionCallbackInfo<Value>& args) {
       return;
   }
 
-  pManagedEntryPoint((intptr_t)nanCb,
+  pManagedEntryPoint(nanCb,
     stdCStringConfig.c_str(),
     stdCStringData.c_str(),
     ClrCallback);
@@ -133,7 +132,7 @@ void Init(Local<Object> exports) {
       Nan::ThrowError("Unknown error");
       return;
   }
-  
+
   pManagedEntryPoint = (PManagedEntryPoint)delegatePointer;
   Nan::SetMethod(exports, "ClrExecute", ClrExecute);
 }

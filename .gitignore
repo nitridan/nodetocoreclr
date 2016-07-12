@@ -18,4 +18,5 @@ dist-*/
 .idea/
 *.suo
 .vs/
+.vscode/
 *.user

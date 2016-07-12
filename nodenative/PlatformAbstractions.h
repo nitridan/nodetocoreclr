@@ -13,6 +13,7 @@ typedef DWORD clr_domain_id;
 #include <limits.h>
 typedef void* p_independent_lib_t;
 typedef uint32_t clr_domain_id;
+#define STDMETHODCALLTYPE
 #endif
 
 #include <stdint.h>
