@@ -10,7 +10,7 @@ using namespace v8;
 
 typedef void (STDMETHODCALLTYPE *PUnmanagedCallback)(CallbackData*, const char*);
 
-typedef void (STDMETHODCALLTYPE *PManagedEntryPoint)(const CallbackData*, const char*, const char*, const void (*PUnmanagedCallback));
+typedef void (STDMETHODCALLTYPE *PManagedEntryPoint)(const CallbackData*, const char*, const char*, const intptr_t);
 
 // Declare a variable pointing to our managed method.
 PManagedEntryPoint pManagedEntryPoint;
@@ -63,7 +63,7 @@ void ClrExecute(const Nan::FunctionCallbackInfo<Value>& args) {
   pManagedEntryPoint(nanCb,
     stdCStringConfig.c_str(),
     stdCStringData.c_str(),
-    ClrCallback);
+    (intptr_t)ClrCallback);
 }
 
 void Init(Local<Object> exports) {
