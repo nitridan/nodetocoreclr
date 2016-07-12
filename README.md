@@ -30,7 +30,7 @@ npm install https://github.com/nitridan/nodetocoreclr/releases/download/v1.3/nod
 npm install https://github.com/nitridan/nodetocoreclr/releases/download/v1.3/nodetocoreclr-electron-win-1.3.39.tgz
 ```
 
-### Installation to node.js (v6.2.2 currently used for build):
+### Installation to node.js (v6.3.0 currently used for build):
 
 - Linux
 ```
@@ -124,13 +124,13 @@ Sample project.json
     },
 
     "dependencies": {
-        "NETStandard.Library": "1.0.0-rc3-*",
-        "Microsoft.CSharp": "4.0.1-rc3-*",
-        "System.Dynamic.Runtime": "4.0.11-rc3-*"
+        "NETStandard.Library": "1.6.0",
+        "Microsoft.CSharp": "4.0.1",
+        "System.Dynamic.Runtime": "4.0.11"
     },
 
     "frameworks": {
-        "dnxcore50": { }
+        "netcoreapp1.0": { }
     }
 }
 ```
@@ -150,22 +150,20 @@ const input = {
 };
   
 addon.configureRuntime({
-    // pth to base core CLR directory
+    // path to base core CLR directory
     clrAppBasePath: 'C:\\git\\coreclr',
     // path to core CLR library itself
     clrLibPath: 'C:\\git\\coreclr\\coreclr.dll',
     // List of coma separated fully trusted assemblies
     clrTrustedPlatformAssemblies: '',
-    // list of coma separated folders to search for assemblies    
+    // list of folders separated by semicolon to search for assemblies    
     clrAppPaths: 'C:\\git\\coreclr'
 });
 
 const clrRuntime = addon.getClrRuntime();
 const clrPromise = clrRuntime.callClrMethod(config, input);
-clrPromise.then((result) => {
-    console.log('This should be eight: ' + result);
-});
+clrPromise.then(result => console.log('Input was: ' + result));
 
 const stdin = process.openStdin();
-stdin.on('data', (chunk) => { console.log("Got chunk: " + chunk); });
+stdin.on('data', chunk => console.log("Got chunk: " + chunk));
 ```
