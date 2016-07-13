@@ -1,4 +1,4 @@
-version: 1.3.{build}
+version: 1.4.{build}
 environment:
   DROPBOX_TOKEN:
     secure: KF58oZx+oxHi4PTz1vFXwnLo1JUJaFuElnB2Fb5okXuBvYLVWtdb9PHup615mq8VCP/ncZKxqw1ry7NrdnLb6/XsE+oJ9aRrzpSJ+krIdMg=

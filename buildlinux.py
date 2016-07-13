@@ -20,7 +20,7 @@ build_number = args.buildNumber
 
 ELECTRON_VERSION = args.electronVersion
 NODE_VERSION = args.nodeVersion
-NATIVE_VERSION = '1.3.' + str(build_number)
+NATIVE_VERSION = '1.4.' + str(build_number)
 
 script_dir = path.dirname(path.realpath(__file__))
 
