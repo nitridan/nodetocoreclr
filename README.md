@@ -23,29 +23,29 @@ Ubuntu 14.04 x64
 
 - Linux
 ```
-npm install https://github.com/nitridan/nodetocoreclr/releases/download/v1.3/nodetocoreclr-electron-linux-1.3.23.tgz
+npm install https://github.com/nitridan/nodetocoreclr/releases/download/v1.4/nodetocoreclr-electron-linux-1.4.32.tgz
 ```
 - Windows
 ```
-npm install https://github.com/nitridan/nodetocoreclr/releases/download/v1.3/nodetocoreclr-electron-win-1.3.39.tgz
+npm install https://github.com/nitridan/nodetocoreclr/releases/download/v1.4/nodetocoreclr-electron-win-1.4.49.tgz
 ```
 
 ### Installation to node.js (v6.3.0 currently used for build):
 
 - Linux
 ```
-npm install https://github.com/nitridan/nodetocoreclr/releases/download/v1.3/nodetocoreclr-node-linux-1.3.23.tgz
+npm install https://github.com/nitridan/nodetocoreclr/releases/download/v1.4/nodetocoreclr-node-linux-1.4.32.tgz
 ```
 - Windows
 ```
-npm install https://github.com/nitridan/nodetocoreclr/releases/download/v1.3/nodetocoreclr-node-win-1.3.39.tgz
+npm install https://github.com/nitridan/nodetocoreclr/releases/download/v1.4/nodetocoreclr-node-win-1.4.49.tgz
 ```
 
 ## Latest nuget package
 
 Nuget package completely OS independent. You can put it into your nuget repository and use.
 
-https://github.com/nitridan/nodetocoreclr/releases/download/v1.3/Nitridan.CoreClrNode.1.3-release-39.nupkg
+https://github.com/nitridan/nodetocoreclr/releases/download/v1.4/Nitridan.CoreClrNode.1.4-release-49.nupkg
 
 ## Build
 
