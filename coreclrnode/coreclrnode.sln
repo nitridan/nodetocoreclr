@@ -1,9 +1,9 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.26114.2
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "coreclrnode", "coreclrnode.xproj", "{65271AA5-27F3-44DE-9C88-BFF17EAD88D3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "coreclrnode", "coreclrnode.csproj", "{65271AA5-27F3-44DE-9C88-BFF17EAD88D3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

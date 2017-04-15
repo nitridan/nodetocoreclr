@@ -1,5 +1,5 @@
 function Download-DotNet {
-    $DOTNET_SDK_URL = 'https://dotnetcli.blob.core.windows.net/dotnet/beta/Binaries/Latest/dotnet-dev-win-x64.latest.zip'
+    $DOTNET_SDK_URL = 'https://download.microsoft.com/download/F/D/5/FD52A2F7-65B6-4912-AEDD-4015DF6D8D22/dotnet-dev-win-x64.1.0.1.zip'
     Invoke-WebRequest -Uri $DOTNET_SDK_URL -OutFile dotnet.zip
     Add-Type -assembly 'system.io.compression.filesystem'
     if (Test-Path '.\dist-dotnet'){

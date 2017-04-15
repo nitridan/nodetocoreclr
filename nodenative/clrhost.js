@@ -9,8 +9,8 @@ if (process.arch == 'ia32'){
 }
 
 module.exports.callClrMethod = function(config, args){
-    const configStr = JSON.stringify(config);
-    const argsStr = JSON.stringify(args);
+    const configStr = Buffer.from(JSON.stringify(config)).toString('base64');
+    const argsStr = Buffer.from(JSON.stringify(args)).toString('base64');
     const clrPromise = new Promise(function(resolve, reject){
         addon.ClrExecute(configStr, argsStr, (result) => {
 		    const resultObj = JSON.parse(result);

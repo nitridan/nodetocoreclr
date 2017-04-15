@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -13,6 +14,9 @@ namespace Nitridan.CoreClrNode
         
         public delegate void UnmanagedCallback(IntPtr ptr, string result);
         
+        private static string FromBase64(string input)
+            => Encoding.UTF8.GetString(Convert.FromBase64String(input));
+
         public static async void CallClrMethod(IntPtr ptr, 
             [In, MarshalAs(UnmanagedType.LPStr)]string config, 
             [In, MarshalAs(UnmanagedType.LPStr)]string input, 
@@ -20,8 +24,8 @@ namespace Nitridan.CoreClrNode
         {
             try 
             {
-                var inputObj = JObject.Parse(input);
-                var asmConfig = JsonConvert.DeserializeObject<AssemblyConfig>(config);
+                var inputObj = JObject.Parse(FromBase64(input));
+                var asmConfig = JsonConvert.DeserializeObject<AssemblyConfig>(FromBase64(config));
                 var assemblyName = new AssemblyName(asmConfig.AssemblyName);
                 var assembly = Assembly.Load(assemblyName);
                 var typeInfo = assembly.GetType(asmConfig.TypeName).GetTypeInfo();

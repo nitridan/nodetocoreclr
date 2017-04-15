@@ -9,6 +9,6 @@ install:
   - sudo apt-get install -y g++-multilib
   - npm install -g node-gyp
 script:
-  - python buildlinux.py -buildNumber $TRAVIS_BUILD_NUMBER
+  - python build.py -buildNumber $TRAVIS_BUILD_NUMBER
 after_success:
-  - python dropboxpublish.py -version=1.4.$TRAVIS_BUILD_NUMBER -token=$DROPBOX_TOKEN
+  - python dropboxpublish.py -version=1.5.$TRAVIS_BUILD_NUMBER -token=$DROPBOX_TOKEN
