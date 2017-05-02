@@ -1,35 +1,58 @@
 #include <stdlib.h>
 #include "PlatformAbstractions.h"
 #include <nan.h>
-#include <uv.h>
-#include "CallbackData.h"
+#include <stdint.h>
 
 namespace ClrLoader {
 
 using namespace v8;
 
-typedef void (STDMETHODCALLTYPE *PUnmanagedCallback)(CallbackData*, const char*);
-
-typedef void (STDMETHODCALLTYPE *PManagedEntryPoint)(const CallbackData*, const char*, const char*, const intptr_t);
+typedef void (STDMETHODCALLTYPE *PManagedEntryPoint)(const char*, const char*, int32_t*, char **);
 
 // Declare a variable pointing to our managed method.
 PManagedEntryPoint pManagedEntryPoint;
 
-void ClrCallback(CallbackData* callbackData, const char* value){
-    callbackData->setResult(value);
-    uv_async_send(callbackData->getLoopData());
-}
+class ClrWorker : public Nan::AsyncWorker {
+    public:
+        ClrWorker(Nan::Callback *callback, std::string c, std::string args)
+        : AsyncWorker(callback){
+          config = c;
+          arguments = args;
+        }
 
-void FinalizeUvCallback(uv_async_t* handle){
-    Nan::HandleScope handleScope;
-    auto data = (CallbackData*)handle->data;
-    const unsigned argc = 1;
-    Local<Value> argv[argc] = {  Nan::New<String>(data->getResult()).ToLocalChecked() };
-    Local<Function> origFunc = Nan::New(*data->getCallback());
-    Nan::Callback cb(origFunc);
-    cb.Call(argc, argv);
-    delete data;
-}
+        ~ClrWorker() {}
+
+        void Execute () {
+          int32_t resultCode;
+          pManagedEntryPoint(
+            config.c_str(),
+            arguments.c_str(),
+            &resultCode,
+            &results);
+
+          if (resultCode > 0){
+            SetErrorMessage(results);
+            return;
+          }
+        }
+
+        // We have the results, and we're back in the event loop.
+        void HandleOKCallback () {
+            Nan::HandleScope scope;
+
+            Local<Value> argv[] = {
+                Nan::Null(),
+                Nan::New<String>(results).ToLocalChecked()
+            };
+
+            callback->Call(2, argv);
+        }
+
+    private:
+        std::string config;
+        std::string arguments;
+        char* results;
+};
 
 void ClrExecute(const Nan::FunctionCallbackInfo<Value>& args) {
   if (args.Length() < 3) {
@@ -45,25 +68,14 @@ void ClrExecute(const Nan::FunctionCallbackInfo<Value>& args) {
   }
 
   String::Utf8Value utfStringConfig(args[0].As<String>());
-  auto stdCStringConfig = std::string(*utfStringConfig);
+  auto config = std::string(*utfStringConfig);
 
   String::Utf8Value utfStringData(args[1].As<String>());
-  auto stdCStringData = std::string(*utfStringData);
+  auto data = std::string(*utfStringData);
 
   // Perform the operation
-  auto cb = args[2].As<Function>();
-  auto nanCb = new CallbackData(new Nan::Persistent<Function>(cb));
-  auto initResult = uv_async_init(uv_default_loop(), nanCb->getLoopData(), FinalizeUvCallback);
-  // All libuv sucessfull codes greater than 0
-  if (initResult < 0){
-      Nan::ThrowError(uv_strerror(initResult));
-      return;
-  }
-
-  pManagedEntryPoint(nanCb,
-    stdCStringConfig.c_str(),
-    stdCStringData.c_str(),
-    (intptr_t)ClrCallback);
+  auto callback = new Nan::Callback(args[2].As<Function>());
+  AsyncQueueWorker(new ClrWorker(callback, config, data));
 }
 
 void Init(Local<Object> exports) {

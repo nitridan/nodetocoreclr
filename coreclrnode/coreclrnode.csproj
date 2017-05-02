@@ -5,7 +5,6 @@
     <TargetFrameworks>netcoreapp1.0;netstandard1.6</TargetFrameworks>
     <AssemblyName>Nitridan.CoreClrNode</AssemblyName>
     <PackageId>coreclrnode</PackageId>
-    <RuntimeIdentifiers>win10-x64;win10-x86;win81-x86;win8-x86;win7-x86;win81-x64;win8-x64;win7-x64;ubuntu.14.04-x64</RuntimeIdentifiers>
     <NetStandardImplicitPackageVersion>1.6.0</NetStandardImplicitPackageVersion>
   </PropertyGroup>
 

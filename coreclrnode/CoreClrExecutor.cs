@@ -11,16 +11,19 @@ namespace Nitridan.CoreClrNode
     public static class CoreClrExecutor
     {
         public delegate Task<object> ClrMethodDelegate(object input);
-        
-        public delegate void UnmanagedCallback(IntPtr ptr, string result);
+
+        private const int SuccessResult = 0;
+
+        private const int FailResult = 1;
         
         private static string FromBase64(string input)
             => Encoding.UTF8.GetString(Convert.FromBase64String(input));
 
-        public static async void CallClrMethod(IntPtr ptr, 
+        public static void CallClrMethod( 
             [In, MarshalAs(UnmanagedType.LPStr)]string config, 
             [In, MarshalAs(UnmanagedType.LPStr)]string input, 
-            UnmanagedCallback cb)
+            [Out]out int resultType,
+            [Out]out string resultJson)
         {
             try 
             {
@@ -31,24 +34,18 @@ namespace Nitridan.CoreClrNode
                 var typeInfo = assembly.GetType(asmConfig.TypeName).GetTypeInfo();
                 var methodInfo = typeInfo.GetDeclaredMethod(asmConfig.MethodName);
                 var methodDelegate = (ClrMethodDelegate)methodInfo.CreateDelegate(typeof(ClrMethodDelegate));
-                var result = await methodDelegate(inputObj);
-                var jsonResult = new JsonResult 
-                {
-                    ResultType = ResultType.Success,
-                    Result = result
-                };
-                
-                cb(ptr, JsonConvert.SerializeObject(jsonResult));
+                var result = methodDelegate(inputObj)
+                    .ConfigureAwait(false)
+                    .GetAwaiter()
+                    .GetResult();
+
+                resultType = SuccessResult;
+                resultJson = JsonConvert.SerializeObject(result);
             }
             catch (Exception ex)
-            {
-                var resultEx = new JsonResult 
-                {
-                    ResultType = ResultType.Error,
-                    Result = ex
-                };
-                
-                cb(ptr, JsonConvert.SerializeObject(resultEx));
+            {               
+                resultType = FailResult;
+                resultJson = JsonConvert.SerializeObject(ex);
             }
         }
     }
