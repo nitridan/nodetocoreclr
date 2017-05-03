@@ -16,7 +16,7 @@ function Force-Copy($source, $destination){
 if ($localDotNet){
     . .\downloadDotNet.ps1
     Download-DotNet
-    & npm config set msvs_version 2013 --global
+    & npm config set msvs_version 2015 --global
     & npm install -g node-gyp
     if ($LASTEXITCODE -ne 0){
         Write-Output 'Failed to restore gyp compile dependencies'

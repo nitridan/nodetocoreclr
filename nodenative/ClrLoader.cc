@@ -23,15 +23,19 @@ class ClrWorker : public Nan::AsyncWorker {
         ~ClrWorker() {}
 
         void Execute () {
+          char* resultChar;
           int32_t resultCode;
           pManagedEntryPoint(
             config.c_str(),
             arguments.c_str(),
             &resultCode,
-            &results);
+            &resultChar);
+
+          results = std::string(resultChar);
+          delete[] resultChar;
 
           if (resultCode > 0){
-            SetErrorMessage(results);
+            SetErrorMessage(results.c_str());
             return;
           }
         }
@@ -51,7 +55,7 @@ class ClrWorker : public Nan::AsyncWorker {
     private:
         std::string config;
         std::string arguments;
-        char* results;
+        std::string results;
 };
 
 void ClrExecute(const Nan::FunctionCallbackInfo<Value>& args) {
