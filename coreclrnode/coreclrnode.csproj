@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <VersionPrefix>1.5-release</VersionPrefix>
+    <VersionPrefix>1.6-release</VersionPrefix>
     <TargetFrameworks>netcoreapp1.0;netstandard1.6</TargetFrameworks>
     <AssemblyName>Nitridan.CoreClrNode</AssemblyName>
     <PackageId>coreclrnode</PackageId>

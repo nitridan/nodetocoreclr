@@ -1,4 +1,4 @@
-version: 1.5.{build}
+version: 1.6.{build}
 environment:
   DOTNET_CLI_TELEMETRY_OPTOUT: 1
 build_script:

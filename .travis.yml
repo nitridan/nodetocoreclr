@@ -11,4 +11,4 @@ install:
 script:
   - python build.py -buildNumber $TRAVIS_BUILD_NUMBER
 after_success:
-  - python dropboxpublish.py -version=1.5.$TRAVIS_BUILD_NUMBER -token=$DROPBOX_TOKEN
+  - python dropboxpublish.py -version=1.6.$TRAVIS_BUILD_NUMBER -token=$DROPBOX_TOKEN
